@@ -1,0 +1,99 @@
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Roboto', 'Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans', 'Helvetica Neue',sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  direction: ltr;
+  font-feature-settings: 'kern';
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0,0,0,0.87);
+  background: #fafafa;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0
+}
+
+.main-container {
+  max-width: 900px;
+  margin: auto;
+}
+.input-error {
+  color: red;
+  font-size: 12px;
+}
+.gray {
+  color: rgba(0,0,0,0.4);
+}
+.raised-card {
+  background: white;
+  max-width: 600px;
+  text-align: center;
+  margin: auto;
+  margin-top: 30px;
+  padding: 30px 10px;
+  border: 1px solid rgb(234, 234, 234);
+  border-radius: 4px;
+  box-shadow: 5px 10px 25px rgba(0,0,0,0.04);
+}
+
+.email-input-form{
+  max-width: 300px;
+  margin: auto;
+  margin-top: 30px;
+  padding: 0 10px;
+  height: 32px;
+  position: relative;
+  display: flex;
+}
+
+form {
+  width: 100%;
+}
+
+.email-thank-you {
+  width: 100%;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.navbar {
+  max-width: 900px;
+  margin: 0 auto;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .navbar-link {
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.stripe-card-input {
+  background-color: white;
+  padding: 7px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all .3s;
+  height: 32px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.stripe-card-input input::after {
+  color: red;
+}
+.stripe-card-input:hover {
+  border-color: #40a9ff;
+}
+
+.stripe-card-input.StripeElement--focus {
+  border-color: #40a9ff;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  border-right-width: 1px !important;
+}
