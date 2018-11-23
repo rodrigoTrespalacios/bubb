@@ -5,7 +5,7 @@
   "repository": "https://github.com/iaincollins/next-auth.git",
   "main": "",
   "scripts": {
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "build": "next build",
     "start": "node index.js"
   },
@@ -20,6 +20,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "global": "^4.3.2",
     "isomorphic-unfetch": "^3.0.0",
     "mongodb": "^3.0.7",
     "nedb": "^1.8.0",

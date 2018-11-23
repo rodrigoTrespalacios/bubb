@@ -1,25 +1,29 @@
-/**
- * Simple example of how to use the NextAuth module.
- *
- * To invoke next-auth you will need to define a configuration block for your
- * site. You can create a next-auth.config.js file and put all your options
- * in it and pass it to next-auth when calling init().
- * 
- * A number of sample configuration files for various databases and
- * authentication options are provided.
- **/
+'use strict'
 
-// Include Next.js, Next Auth and a Next Auth config
 const next = require('next')
 const nextAuth = require('next-auth')
 const nextAuthConfig = require('./next-auth.config')
-const express = require('express')
 const { MongoClient } = require('mongodb')
-// const body = require('body-parser')
-const api = require('./server/api')
 
-// Load environment variables from .env
+const routes = {
+  links:  require('./server/routes/links'),
+}
+
+// Load environment variables from .env file if present
 require('dotenv').load()
+
+process.on('uncaughtException', function(err) {
+  console.error('Uncaught Exception: ', err)
+})
+
+process.on('unhandledRejection', (reason, p) => {
+  console.error('Unhandled Rejection: Promise:', p, 'Reason:', reason)
+})
+
+// Default when run with `npm start` is 'production' and default port is '80'
+// `npm run dev` defaults mode to 'development' & port to '3000'
+process.env.NODE_ENV = process.env.NODE_ENV || 'production'
+process.env.PORT = process.env.PORT || 3000
 
 // Initialize Next.js
 const nextApp = next({
@@ -27,8 +31,7 @@ const nextApp = next({
   dev: (process.env.NODE_ENV === 'development')
 })
 
-const expressApp = express()
-let db = null
+let db
 // Add next-auth to next app
 nextApp
 .prepare()
@@ -41,40 +44,35 @@ nextApp
   return nextAuthConfig()
 })
 .then(nextAuthOptions => {
-  if (nextAuthOptions.port) delete nextAuthOptions.port
-  nextAuthOptions.expressApp = expressApp
-  
-  nextAuth(nextApp, nextAuthOptions)  
-  expressApp.use((req, res, next) => {
-    // Also expose the MongoDB database handle so Next.js can access it.
-    req.db = db
-    next()
-  })
-  expressApp.use('/api', api(db))
+  // Pass Next.js App instance and NextAuth options to NextAuth
+  // Note We do not pass a port in nextAuthOptions, because we want to add some
+  // additional routes before Express starts (if you do pass a port, NextAuth
+  // tells NextApp to handle default routing and starts Express automatically).
+  if(nextAuthOptions.port) delete nextAuthOptions.port
+  return nextAuth(nextApp, nextAuthOptions)
+})
+.then(nextAuthOptions => {
+  // Get Express and instance of Express from NextAuth
+  const express = nextAuthOptions.express
+  const expressApp = nextAuthOptions.expressApp
 
+  // Add admin routes
+  routes.links(expressApp, db)
+
+  
+  // Default catch-all handler to allow Next.js to handle all other routes
   expressApp.all('*', (req, res) => {
     let nextRequestHandler = nextApp.getRequestHandler()
     return nextRequestHandler(req, res)
   })
-  // Pass Next.js App instance and NextAuth options to NextAuth
-  expressApp.listen(process.env.PORT || 3000, err => {
-    if (err) throw err
-    console.log('> Ready on http://localhost:' + (process.env.PORT || 3000))
-  }) 
-})
-// .then((response) => {
-//   const express = response.express
 
-//   express.use('/api', api())
-//   express.get('*', (req, res) => {
-//     return handle(req, res)
-//   })
-//   express.listen(process.env.PORT, err => {
-//     if (err) throw err
-//     console.log('> Ready on http://localhost:' + process.env.PORT)
-//   })
-//   // console.log(`Ready on http://localhost:${process.env.PORT || 3000}`)
-// })
+  expressApp.listen(process.env.PORT, err => {
+    if (err) {
+      throw err
+    }
+    console.log('> Ready on http://localhost:' + process.env.PORT + ' [' + process.env.NODE_ENV + ']')
+  })
+})
 .catch(err => {
   console.log('An error occurred, unable to start the server')
   console.log(err)

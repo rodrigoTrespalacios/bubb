@@ -12,14 +12,39 @@ import "../../styles/main.css"
 
 export default class extends React.Component {
   static async getInitialProps({req}) {
-    const res = await fetch('http://localhost:3000/api')
-    const data = await res.json()
-    console.log(data)
+    // const res = await fetch('http://localhost:3000/api', {
+    //   credentials: 'include'
+    // })
+    // const data = await res.json()
+    // console.log(data)
     return {
       session: await NextAuth.init({req})
     }
   }
 
+  async search() {
+    const {
+      url
+    } = this.props
+    const search = url.query.q
+    const res = await fetch(`http://localhost:3000/api/search/${search}`)
+    const data = await res.json()
+    console.log(data)
+  }
+
+  async componentDidMount() {
+    this.search()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { pathname, query } = this.props.url
+
+    // verify props have changed to avoid an infinite loop
+    if (query.q !== prevProps.url.query.q) {
+      // fetch data based on the new query
+      this.search()
+    }
+  }
   // submitForm (data) {
     // fetch('/api/contact', {
       // method: 'post',
@@ -42,7 +67,7 @@ export default class extends React.Component {
       <div className="main-container">
         <Navbar user={this.props.session.user}/>
         <h1 className="display-4 mt-3 mb-3">Get Link</h1>
-        <ShortLinkSelect session={this.props.session} />
+        <ShortLinkSelect session={this.props.session} initialValue={this.props.url.query.q || ''} />
       </div>
     )
   }

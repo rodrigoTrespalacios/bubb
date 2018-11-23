@@ -5,28 +5,23 @@ import Button from 'antd/lib/button'
 import Input from 'antd/lib/input'
 import Icon from 'antd/lib/icon'
 import RaisedCard from './RaisedCard'
+import { debounced } from '../utils/helpers'
 
 export default class extends React.Component {
-  
-  
-  constructor(props) {
-    super(props)
-    this.state = {
-      link: ''
-    }
-  }
 
   handleLinkSubmit = (event) => {
     event.preventDefault()
-    console.log(this.state.link)
   }
 
-  handleLinkChange = (event) => {
-    this.setState({
-      link: event.target.value
-    })
+  handleLinkChange = (value) => {
+    const slug = value
+    const href = `/get?q=${slug}`
+    const as = href
+    Router.push(href, as, { shallow: true })
   }
   
+  debouncedUpdate = debounced(300, value => this.handleLinkChange(value));
+
   render() {
     return (
       <div className="main-container">
@@ -36,7 +31,8 @@ export default class extends React.Component {
           <Input
             size="large"
             addonBefore="bubb.as/"
-            onChange={this.handleLinkChange}
+            onChange={({ target: { value } }) => this.debouncedUpdate(value)}
+            defaultValue={this.props.initialValue}
           />
         </form>
       </div>

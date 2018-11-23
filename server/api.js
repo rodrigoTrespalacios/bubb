@@ -21,6 +21,8 @@ module.exports = db => {
 
   // Get all books
   router.get('/', wrapAsync(async function(req) {
+    console.log('user')
+    console.log(req.user)
     const links = db.collection('link').find().sort({ createdAt: -1 }).toArray()
     return links
   }))
@@ -38,7 +40,7 @@ module.exports = db => {
   }))
 
   router.post('/pay', wrapAsync(async function(req) {
-    console.log(req.body)
+    // console.log(req.body)
     stripe.charges.create(req.body);
   }))
 
