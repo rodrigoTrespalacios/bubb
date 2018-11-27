@@ -1,40 +1,40 @@
 import React from 'react'
 import Router from 'next/router'
-import Link from 'next/link'
 import Button from 'antd/lib/button'
-import Input from 'antd/lib/input'
-import Icon from 'antd/lib/icon'
-import RaisedCard from './RaisedCard'
-import { debounced } from '../utils/helpers'
+import fetch from 'isomorphic-unfetch'
+
 
 export default class extends React.Component {
 
-  handleLinkSubmit = (event) => {
-    event.preventDefault()
-  }
+  submitForm = () => {
+    const data = {
+      slug: this.props.search,
 
-  handleLinkChange = (value) => {
-    const slug = value
-    const href = `/get?q=${slug}`
-    const as = href
-    Router.push(href, as, { shallow: true })
+    }
+    fetch('/api/reserve', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        'x-csrf-token': this.props.session.csrfToken,
+      },
+      body: JSON.stringify(data)
+    }).then((res) => {
+      if(res.status === 200) {
+        this.setState({ submitted: true })
+        Router.push({ pathname: '/dashboard'})
+      }
+    })
   }
-  
-  debouncedUpdate = debounced(300, value => this.handleLinkChange(value));
 
   render() {
+    if(!this.props.searchResults || !this.props.search) return null
     return (
       <div className="main-container">
-        <h1>Short Link Select</h1>
-        <form id="signout" method="post" onSubmit={this.handleLinkSubmit}>
-          <input name="_csrf" type="hidden" value={this.props.session.csrfToken}/>
-          <Input
-            size="large"
-            addonBefore="bubb.as/"
-            onChange={({ target: { value } }) => this.debouncedUpdate(value)}
-            defaultValue={this.props.initialValue}
-          />
-        </form>
+        {this.props.search} is {this.props.searchResults.length > 0 ? ' not ' : ' '} available.
+        <Button onClick={this.submitForm}>
+         Get
+        </Button>
       </div>
     )
   }

@@ -2,13 +2,14 @@ import React from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import Button from 'antd/lib/button'
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar'
 import { NextAuth } from 'next-auth/client'
-import ShortLinkSelect from '../../components/ShortLinkSelect'
+import ShortLinkSearch from '../../../components/ShortLinkSearch'
+import ShortLinkSelect from '../../../components/ShortLinkSelect'
 import fetch from 'isomorphic-unfetch'
 
 import "antd/dist/antd.css"
-import "../../styles/main.css"
+import "../../../styles/main.css"
 
 export default class extends React.Component {
   static async getInitialProps({req}) {
@@ -22,6 +23,14 @@ export default class extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      searchResults: null,
+      search: null
+    }
+  }
+
   async search() {
     const {
       url
@@ -29,7 +38,7 @@ export default class extends React.Component {
     const search = url.query.q
     const res = await fetch(`http://localhost:3000/api/search/${search}`)
     const data = await res.json()
-    console.log(data)
+    this.setState({searchResults: data.links || [], search})
   }
 
   async componentDidMount() {
@@ -58,16 +67,13 @@ export default class extends React.Component {
     // })
   // }
   
-  constructor(props) {
-    super(props)
-  }
-  
   render() {
     return (
       <div className="main-container">
         <Navbar user={this.props.session.user}/>
         <h1 className="display-4 mt-3 mb-3">Get Link</h1>
-        <ShortLinkSelect session={this.props.session} initialValue={this.props.url.query.q || ''} />
+        <ShortLinkSearch session={this.props.session} initialValue={this.props.url.query.q || ''} />
+        <ShortLinkSelect searchResults={this.state.searchResults} search={this.state.search} session={this.props.session}/>
       </div>
     )
   }

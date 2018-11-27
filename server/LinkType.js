@@ -17,8 +17,8 @@ module.exports = new Archetype({
     $type: ObjectId,
   },
   paid: {
-    $type: Boolean,
+    $type: 'boolean',
     $required: true,
     $default: false,
   },
-}).compile('LinkType')``
+}).compile('LinkType')

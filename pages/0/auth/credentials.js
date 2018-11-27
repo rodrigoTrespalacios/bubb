@@ -106,7 +106,7 @@ export default class extends React.Component {
             </div>
           </div>
           <p className="text-center">
-            <Link href="/auth"><a>Back</a></Link>
+            <Link href="/0/auth"><a>Back</a></Link>
           </p>
         </div>
       )

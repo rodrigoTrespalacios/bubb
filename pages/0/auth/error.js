@@ -18,7 +18,7 @@ export default class extends React.Component {
           <div className="text-center mb-5">
             <h1 className="display-4 mt-5 mb-3">Unable to sign in</h1>
             <p className="lead">An account associated with your email address already exists.</p>
-            <p className="lead"><Link href="/auth"><a>Sign in with email or another service</a></Link></p>
+            <p className="lead"><Link href="/0/auth"><a>Sign in with email or another service</a></Link></p>
           </div>
           <div className="row">
             <div className="col-sm-8 mr-auto ml-auto mb-5 mt-5">
@@ -51,7 +51,7 @@ export default class extends React.Component {
           <div className="text-center">
             <h1 className="display-4 mt-5 mb-2">Link not valid</h1>
             <p className="lead">This sign in link is no longer valid.</p>
-            <p className="lead"><Link href="/auth"><a>Get a new sign in link</a></Link></p>
+            <p className="lead"><Link href="/0/auth"><a>Get a new sign in link</a></Link></p>
           </div>
         </div>
       )
@@ -61,7 +61,7 @@ export default class extends React.Component {
           <div className="text-center">
             <h1 className="display-4 mt-5">Error signing in</h1>
             <p className="lead">An error occured while trying to sign in.</p>
-            <p className="lead"><Link href="/auth"><a>Sign in with email or another service</a></Link></p>
+            <p className="lead"><Link href="/0/auth"><a>Sign in with email or another service</a></Link></p>
           </div>
         </div>
       )

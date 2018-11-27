@@ -2,13 +2,13 @@ import React from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
 import Button from 'antd/lib/button'
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar'
 import { NextAuth } from 'next-auth/client'
-import ShortLinkSelect from '../../components/ShortLinkSelect'
+import ShortLinkSelect from '../../../components/ShortLinkSelect'
 import fetch from 'isomorphic-unfetch'
-import Checkout from '../../components/Checkout'
+import Checkout from '../../../components/Checkout'
 import "antd/dist/antd.css"
-import "../../styles/main.css"
+import "../../../styles/main.css"
 
 export default class extends React.Component {
   static async getInitialProps({req, res}) {
@@ -16,11 +16,11 @@ export default class extends React.Component {
     if(!session.user) {
       if (res) {
         res.writeHead(302, {
-          Location: '/auth'
+          Location: '/0/auth'
         })
         res.end()
       } else {
-        Router.push('/auth')
+        Router.push('/0/auth')
       }
     }
     return {

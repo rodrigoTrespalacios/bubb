@@ -18,7 +18,7 @@ export default class extends React.Component {
             A sign in link has been sent to { (this.props.email) ? <span className="font-weight-bold">{this.props.email}</span> : <span>your inbox</span> }.
           </p>
           <p>
-            <Link href="/"><a>Home</a></Link>
+            <Link href="/0"><a>Home</a></Link>
           </p>
         </div>
       </div>

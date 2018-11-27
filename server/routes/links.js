@@ -1,11 +1,11 @@
 'use strict'
+const LinkType = require('../LinkType')
 
 module.exports = (expressApp, db, functions) => {
 
   if (expressApp === null) {
     throw new Error('expressApp option must be an express server instance')
   }
-
   // Expose a route to return user profile if logged in with a session
   expressApp.get('/api/search/:q', async(req, res) => {
     const slug = req.params.q
@@ -17,17 +17,30 @@ module.exports = (expressApp, db, functions) => {
     }
 
   })
+  expressApp.get('/api/user/links', async(req, res) => {
+    console.log(req.user)
+    if (req.user) {
+      const links = await db.collection('link').find({owner: req.user.id}).sort({ createdAt: -1 }).toArray()
+      return res.status(200).json({ links })
+    } else {
+      return res.status(403).json({error: 'Must be signed in to get profile'})
+    }
+  })
 
-  expressApp.post('/api/search', (req, res) => {
-    console.log(req.body)
-    // if (req.user) {
-    //   const link = new LinkType(req.body)
-    //   // await db.collection('link').insertOne(link)
+  expressApp.post('/api/reserve', async(req, res) => {
+    if (req.user) {
 
-    //   return res.status(200).json({ link: 'd' })
-    // } else {
-    //   return res.status(403).json({error: 'Must be signed in to get profile'})
-    // }
+      const link = new LinkType({
+        slug: req.body.slug,
+        owner: req.user.id,
+        paid: false,
+      })
+      await db.collection('link').insertOne(link)
+
+      return res.status(200).json({ link: link })
+    } else {
+      return res.status(403).json({error: 'Must be signed in to get profile'})
+    }
   })
 
 }

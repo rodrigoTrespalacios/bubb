@@ -3,8 +3,8 @@ import Router from 'next/router'
 import Link from 'next/link'
 import Button from 'antd/lib/button'
 import "antd/dist/antd.css"
-import "../styles/main.css"
-import Navbar from '../components/Navbar'
+import "../../styles/main.css"
+import Navbar from '../../components/Navbar'
 import { NextAuth } from 'next-auth/client'
 
 export default class extends React.Component {

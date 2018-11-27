@@ -5,6 +5,7 @@ const nextAuth = require('next-auth')
 const nextAuthConfig = require('./next-auth.config')
 const { MongoClient } = require('mongodb')
 
+const dynRoutes = require('./routes')
 const routes = {
   links:  require('./server/routes/links'),
 }
@@ -30,7 +31,7 @@ const nextApp = next({
   dir: '.',
   dev: (process.env.NODE_ENV === 'development')
 })
-
+const handler = dynRoutes.getRequestHandler(nextApp)
 let db
 // Add next-auth to next app
 nextApp
@@ -40,6 +41,7 @@ nextApp
 })
 .then((mongodb) => {
   db = mongodb.db("bubb")
+  db.collection('link').createIndex( { "slug": 1 }, { unique: true } )
   // Load configuration and return config object
   return nextAuthConfig()
 })
@@ -55,17 +57,18 @@ nextApp
   // Get Express and instance of Express from NextAuth
   const express = nextAuthOptions.express
   const expressApp = nextAuthOptions.expressApp
-
   // Add admin routes
   routes.links(expressApp, db)
 
   
   // Default catch-all handler to allow Next.js to handle all other routes
-  expressApp.all('*', (req, res) => {
-    let nextRequestHandler = nextApp.getRequestHandler()
-    return nextRequestHandler(req, res)
-  })
+  // expressApp.all('/0/*', (req, res) => {
+  //   let nextRequestHandler = nextApp.getRequestHandler()
+  //   return nextRequestHandler(req, res)
+  // })
 
+  expressApp.use(handler)
+  
   expressApp.listen(process.env.PORT, err => {
     if (err) {
       throw err
