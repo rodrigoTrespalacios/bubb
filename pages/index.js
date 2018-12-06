@@ -13,7 +13,7 @@ export default class extends React.Component {
   static async getInitialProps({req}) {
     const session = await NextAuth.init({req})
     let headers = {}
-    let link = null
+    let link = {}
     if(session.user) {
       if(req) {
         headers = { Cookie: req.headers.cookie }
@@ -75,12 +75,19 @@ export default class extends React.Component {
   }
   
   render() {
+    const {
+      session,
+      link
+    } = this.props
+
     return (
       <div className="main-container">
-        <Navbar session={this.props.session}/>
-        <ShortLinkSearch session={this.props.session} initialValue={this.props.url.query.q || ''} />
-        <ShortLinkSelect searchResults={this.state.searchResults} search={this.state.search} session={this.props.session}/>
-        <PrivateProfileEdit {...this.props} />
+        <Navbar session={session}/>
+        {!session.user && <div>
+          <ShortLinkSearch session={this.props.session} initialValue={this.props.url.query.q || ''} />
+          <ShortLinkSelect searchResults={this.state.searchResults} search={this.state.search} session={this.props.session}/>
+        </div>}
+        {(session.user && link.slug) && <PrivateProfileEdit {...this.props} />}
       </div>
     )
   }

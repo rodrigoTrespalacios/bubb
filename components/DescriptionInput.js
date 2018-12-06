@@ -27,16 +27,7 @@ export default class extends React.Component {
     })
     .then((res) => {
       if (res.status === 200) {
-        let linkList = this.state.linkList
-        if(data.removeLink) {
-          linkList = linkList
-        } else {
-          linkList = [...linkList, this.state.newLink]
-        }
-        this.setState({
-          linkList: linkList,
-          newLink: null
-        })
+        console.log('HELO')
       }
     })
     .catch(err => {
@@ -48,7 +39,7 @@ export default class extends React.Component {
     event.preventDefault()
     const data = {
       description: this.state.description,
-      slug: this.props.url.query.slug,
+      slug: this.props.link.slug,
     }
     this.handleEdit(data)
   }

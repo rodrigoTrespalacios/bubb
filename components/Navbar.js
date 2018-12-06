@@ -1,8 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import { Popover, Button } from 'antd'
+import { Popover } from 'antd'
 import { NextAuth } from 'next-auth/client'
 import Router from 'next/router'
+import Button from 'antd/lib/button'
+import Icon from 'antd/lib/icon'
 
 function handleSignOutSubmit(event) {
   event.preventDefault()
@@ -20,14 +22,14 @@ const Navbar = ({session}) => (
     <div className="navbar-link"><Link href="/"><a>bubb.as</a></Link></div>
     <div>
       {!session.user &&
-        <div className="navbar-link"><Link href="/auth" prefetch>login</Link></div>
+        <div className="navbar-link"><Link href="/auth" prefetch><a>login</a></Link></div>
       }
       {session.user &&
         <React.Fragment>
         <Popover
           placement="bottomRight"
           content={<div>
-            <div className="dropdown-link"><Link href="/dashboard" prefetch>dashboard</Link></div>
+            <div className="dropdown-link"><Link href="/" prefetch>Edit Bubb Link</Link></div>
             <div style={{borderTop: '1px solid rgb(234, 234, 234)', margin: '8px 0px'}} />
             <form id="signout" method="post" action="/auth/signout">
               <input name="_csrf" type="hidden" value={session.csrfToken}/>
@@ -36,7 +38,7 @@ const Navbar = ({session}) => (
           </div>}
           trigger="click"
         >
-          <div className="navbar-link"><a href="">account</a></div>
+          <Button shape="circle"><Icon type="ellipsis" /></Button>
         </Popover>
         </React.Fragment>
       }

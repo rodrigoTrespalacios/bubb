@@ -63,7 +63,7 @@ module.exports = (expressApp, db, functions) => {
       let addOrRemoveLink = {}
       const isValid = isValidLink(req.body.link)
       if(isValid) {
-        let addOrRemoveLink = {$push: {links: req.body.link}}
+        addOrRemoveLink = {$push: {links: req.body.link}}
         if(req.body.link && req.body.removeLink) addOrRemoveLink = {$pull: {links: req.body.link}}
       }
       const updates = {
@@ -71,7 +71,9 @@ module.exports = (expressApp, db, functions) => {
         profileDescription: req.body.description || null
       }
       Object.keys(updates).forEach((key) => (updates[key] == null) && delete updates[key]);
-      const updateOperation = Object.assign({}, addOrRemoveLink, {$set: updates })
+      const updatesIsEmpty = Object.keys(updates).length === 0 && updates.constructor === Object
+      const updateOperation = Object.assign({}, addOrRemoveLink, updatesIsEmpty ? {} : {$set: updates })
+      console.log(updateOperation)
       const link = await db.collection('link').findOneAndUpdate(
         {
           slug: req.body.slug,

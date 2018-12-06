@@ -5,7 +5,7 @@ import Icon from 'antd/lib/icon'
 
 const LinkList = ({link, onLinkDelete}) => {
   return(
-    <div className="list-item">
+    <a className="list-item" href={link} target="_blank">
       <div className="prefix"/>
       <div className="body">
         <div>
@@ -14,9 +14,10 @@ const LinkList = ({link, onLinkDelete}) => {
         </div>
       </div>
       <div className="suffix">
-        <Button onClick={() => onLinkDelete(link)} size="small"> <Icon type="delete" /> </Button>
+        {onLinkDelete && <Button onClick={() => onLinkDelete(link)} size="small"> <Icon type="delete" /> </Button>}
+        {!onLinkDelete && <Icon type="right" />}
       </div>
-    </div>
+    </a>
 )};
 
 export default LinkList

@@ -50,7 +50,7 @@ export default class extends React.Component {
     event.preventDefault()
     const data = {
       link: this.state.newLink,
-      slug: this.props.url.query.slug,
+      slug: this.props.link.slug,
       removeLink: false,
     }
     this.handleEdit(data)
@@ -59,7 +59,7 @@ export default class extends React.Component {
   handleLinkDelete = (link) => {
     const data = {
       link: link,
-      slug: this.props.url.query.slug,
+      slug: this.props.link.slug,
       removeLink: true,
     }
     this.handleEdit(data)

@@ -48,7 +48,7 @@ export default class extends React.Component {
     event.preventDefault()
     const data = {
       name: this.state.name,
-      slug: this.props.url.query.slug,
+      slug: this.props.link.slug,
     }
     this.handleEdit(data)
   }

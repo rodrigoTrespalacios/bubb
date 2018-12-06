@@ -15,6 +15,9 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0
 }
 
+p {
+  font-size: 14px;
+}
 a {
   text-decoration: none !important
 }
@@ -145,6 +148,7 @@ form {
   font-size: 15px;
 }
 .section {
+  box-shadow: 5px 10px 25px rgba(0,0,0,0.04);
   background-color: white;
   margin: 15px auto;
   max-width: 700px;
@@ -205,4 +209,24 @@ form {
   background-color: white;
   border: 1px solid rgb(234,234,234);
 }*/
-
+.static-notification {
+  font-size: 14px;
+  color: white;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: space-between;
+  line-height: 16px;
+  max-width: 900px;
+  padding: 10px;
+  background: black;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  border-image: initial;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  min-height: 45px;
+}
