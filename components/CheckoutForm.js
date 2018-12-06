@@ -12,7 +12,6 @@ class CheckoutForm extends React.Component {
   handleSubmit = (ev) => {
     // We don't want to let default form submission happen here, which would refresh the page.
     ev.preventDefault();
-
     this.props.stripe.createToken({type: 'card', name: this.state.cardholderName}).then((res) => {
       console.log(res)      
       const data = {

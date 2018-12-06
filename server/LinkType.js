@@ -13,8 +13,14 @@ module.exports = new Archetype({
   destination: {
     $type: 'string',
   },
+  links: {
+    $type: Array
+  },
   owner: {
     $type: ObjectId,
+  },
+  profileName: {
+    $type: 'string',
   },
   paid: {
     $type: 'boolean',

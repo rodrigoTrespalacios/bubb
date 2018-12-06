@@ -14,7 +14,7 @@ export default class extends React.Component {
 
   handleLinkChange = (value) => {
     const slug = value
-    const href = `/get?q=${slug}`
+    const href = `/?q=${slug}`
     const as = href
     Router.push(href, as, { shallow: true })
   }
@@ -24,8 +24,7 @@ export default class extends React.Component {
   render() {
     return (
       <div className="main-container">
-        <h1>Short Link Select</h1>
-        <form id="signout" method="post" onSubmit={this.handleLinkSubmit}>
+        <form method="post" onSubmit={this.handleLinkSubmit}>
           <input name="_csrf" type="hidden" value={this.props.session.csrfToken}/>
           <Input
             size="large"

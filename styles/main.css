@@ -1,6 +1,6 @@
 body {
   font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Roboto', 'Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans', 'Helvetica Neue',sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   direction: ltr;
   font-feature-settings: 'kern';
@@ -13,6 +13,15 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0
+}
+
+a {
+  text-decoration: none !important
+}
+
+h2.page-title{
+  font-weight: 400;
+  text-align: center;
 }
 
 .main-container {
@@ -28,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .raised-card {
   background: white;
-  max-width: 600px;
+  /*max-width: 600px;*/
   text-align: center;
   margin: auto;
   margin-top: 30px;
@@ -97,3 +106,103 @@ form {
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   border-right-width: 1px !important;
 }
+
+.dropdown-link a,
+.dropdown-link button{
+  text-transform: capitalize;
+  font-size: 14px;
+  color: rgb(153, 153, 153);
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  padding: 8px 20px;
+}
+
+.dropdown-link a:hover,
+.dropdown-link button:hover{
+  background-color: #fafafa;
+  color: black;
+}
+
+.ant-popover-inner-content {
+  min-width: 200px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.link-button {
+  border:none;
+  background:none;
+  padding:0;
+  text-align:left; 
+}
+
+.ant-table-small {
+  border: none;
+}
+
+.ant-input {
+  font-size: 15px;
+}
+.section {
+  background-color: white;
+  margin: 15px auto;
+  max-width: 700px;
+  border: 1px solid rgb(234,234,234);
+  border-radius: 4px;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.section .list-body {
+  padding: 20px;
+}
+
+.section .list-body .main-input {
+  width: 300px;
+  max-width: 100%;
+  margin-top: 15px;
+}
+.section .list-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgb(234,234,234);
+  /*height: 75px;*/
+  padding: 20px;
+}
+
+.section .list-item.input {
+  /*background-color: #fafafa;*/
+}
+
+.section .list-item.input form{
+  display: flex;
+  max-width: 500px;
+  margin: auto;
+}
+
+.section .list-item .prefix{
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  background-color: #fafafa;
+}
+
+.section .list-item .prefix{
+  flex-shrink: 0;
+}
+
+.section .list-item .body{
+  flex-grow: 1;
+  padding: 0 20px;
+}
+
+.section .list-item:first-child {
+  border: none;
+}
+/*.link-list {
+  background-color: white;
+  border: 1px solid rgb(234,234,234);
+}*/
+

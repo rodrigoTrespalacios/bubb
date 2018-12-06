@@ -1,5 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-
+import Page from '../components/Page'
 export default class DefaultDocument extends Document {
   static async getInitialProps(props) {
     return await Document.getInitialProps(props)

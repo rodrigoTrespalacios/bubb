@@ -8,7 +8,6 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log(this.props.url.query.slug)
     return (
       <div>
         Profile

@@ -1,6 +1,11 @@
 'use strict'
 const LinkType = require('../LinkType')
+const urlRegex = /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/i
 
+function isValidLink(link) {
+  if(!link) return false
+  return urlRegex.test(link)
+}
 module.exports = (expressApp, db, functions) => {
 
   if (expressApp === null) {
@@ -18,10 +23,18 @@ module.exports = (expressApp, db, functions) => {
 
   })
   expressApp.get('/api/user/links', async(req, res) => {
-    console.log(req.user)
     if (req.user) {
       const links = await db.collection('link').find({owner: req.user.id}).sort({ createdAt: -1 }).toArray()
       return res.status(200).json({ links })
+    } else {
+      return res.status(403).json({error: 'Must be signed in to get profile'})
+    }
+  })
+
+  expressApp.get('/api/user/link', async(req, res) => {
+    if (req.user) {
+      const link = await db.collection('link').findOne({owner: req.user.id})//.toArray()
+      return res.status(200).json({ ...link })
     } else {
       return res.status(403).json({error: 'Must be signed in to get profile'})
     }
@@ -35,8 +48,38 @@ module.exports = (expressApp, db, functions) => {
         owner: req.user.id,
         paid: false,
       })
-      await db.collection('link').insertOne(link)
+      await db.collection('link').findOneAndUpdate({
+        slug: req.body.slug,
+        owner: req.user.id}, {$set: link}, {upsert: true})
 
+      return res.status(200).json({ link: link })
+    } else {
+      return res.status(403).json({error: 'Must be signed in to get profile'})
+    }
+  })
+
+  expressApp.post('/api/link/edit', async(req, res) => {
+    if (req.user) {
+      let addOrRemoveLink = {}
+      const isValid = isValidLink(req.body.link)
+      if(isValid) {
+        let addOrRemoveLink = {$push: {links: req.body.link}}
+        if(req.body.link && req.body.removeLink) addOrRemoveLink = {$pull: {links: req.body.link}}
+      }
+      const updates = {
+        profileName: req.body.name || null,
+        profileDescription: req.body.description || null
+      }
+      Object.keys(updates).forEach((key) => (updates[key] == null) && delete updates[key]);
+      const updateOperation = Object.assign({}, addOrRemoveLink, {$set: updates })
+      const link = await db.collection('link').findOneAndUpdate(
+        {
+          slug: req.body.slug,
+          owner: req.user.id,
+        },
+        updateOperation,
+        { upsert: false }
+      )
       return res.status(200).json({ link: link })
     } else {
       return res.status(403).json({error: 'Must be signed in to get profile'})

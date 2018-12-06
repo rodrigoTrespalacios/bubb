@@ -5,11 +5,11 @@ import Button from 'antd/lib/button'
 import Input from 'antd/lib/input'
 import Icon from 'antd/lib/icon'
 import { NextAuth } from 'next-auth/client'
-import RaisedCard from '../../../components/RaisedCard'
-import Navbar from '../../../components/Navbar'
+import RaisedCard from '../../components/RaisedCard'
+import Navbar from '../../components/Navbar'
 
 import "antd/dist/antd.css"
-import "../../../styles/main.css"
+import "../../styles/main.css"
 
 export default class extends React.Component {
   
@@ -48,7 +48,8 @@ export default class extends React.Component {
     })
   }
   
-  handleSignInSubmit(event) {
+  handleSignInSubmit = (event) => {
+    console.log('adsd')
     event.preventDefault()
     
     if (!this.state.email) return
@@ -85,7 +86,7 @@ export default class extends React.Component {
                   />}
               />
               <p className="text-right">
-                <Button id="submitButton" type="submit">LOGIN</Button>
+                <Button htmlType="submit" id="submitButton">LOGIN</Button>
               </p>
             </form>
           </div>
