@@ -4,6 +4,8 @@ import { NextAuth } from 'next-auth/client'
 import Page from '../components/Page'
 import Icon from 'antd/lib/icon'
 import ForwardLink from '../components/ForwardLink'
+import Button from 'antd/lib/button'
+import Link from 'next/link'
 
 export default class extends React.Component {
   static async getInitialProps ({query, req, res}) {
@@ -43,7 +45,8 @@ export default class extends React.Component {
 
   render() {
     const {
-      link
+      link,
+      session
     } = this.props
     return (
       <React.Fragment>
@@ -55,6 +58,9 @@ export default class extends React.Component {
               This is a private version of your short link. <b>Only you can see this.</b> Buy it to make it available publicly.
             </div>
             <div style={{width: 50}}></div>
+          </div>
+          <div style={{textAlign: 'center'}}>
+            <Link href={'/'} prefetch><Button size="medium" type="primary">Edit</Button></Link>
           </div>
           <div style={{textAlign: 'center', margin: '50px 0'}}>
             <h2>{link.profileName}</h2>

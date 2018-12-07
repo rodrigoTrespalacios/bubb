@@ -84,6 +84,10 @@ export default class extends React.Component {
       <div className="main-container">
         <Navbar session={session}/>
         {!session.user && <div>
+          <div style={{textAlign: 'center', marginBottom: 50}}>
+            <h2>Get Control of Your Profile</h2>
+            <p className="gray">Some amazing tagline that will convince everyone to sign up.</p>
+          </div>
           <ShortLinkSearch session={this.props.session} initialValue={this.props.url.query.q || ''} />
           <ShortLinkSelect searchResults={this.state.searchResults} search={this.state.search} session={this.props.session}/>
         </div>}

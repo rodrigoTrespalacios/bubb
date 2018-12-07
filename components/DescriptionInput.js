@@ -11,11 +11,15 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      description: props.link.profileDescription
+      description: props.link.profileDescription,
+      initialDescription: props.link.profileDescription,
+      saving: false,
+      saved: false
     }
   }
 
   handleEdit = (data) => {
+    this.setState({saving: true})
     fetch('http://localhost:3000/api/link/edit', {
         method: 'post',
         headers: {
@@ -27,7 +31,11 @@ export default class extends React.Component {
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log('HELO')
+        this.setState({
+          saving: false,
+          initialDescription: this.state.description,
+          saved: true
+        })
       }
     })
     .catch(err => {
@@ -46,11 +54,17 @@ export default class extends React.Component {
 
   handleDescriptionChange = ({target}) => {
     this.setState({
-      description: target.value,
+      description: target.value.slice(0, 255),
     })
   }
   
   render() {
+     const {
+      description,
+      initialDescription,
+      saving,
+      saved
+    } = this.state
     return (
       <div className="main-container">
 
@@ -68,10 +82,19 @@ export default class extends React.Component {
             </div>
           </div>
         </div>
-          <div className="list-item">
-          <form id="signout" method="post" onSubmit={this.handleDescriptionSubmit}>
+          <div className="list-item content">
+          <div style={{width: '100%'}} className="gray">Please use 256 characters at maximum.</div>
+          <form style={{width: 'auto'}} id="signout" method="post" onSubmit={this.handleDescriptionSubmit}>
             <input name="_csrf" type="hidden" value={this.props.session.csrfToken}/>
-            <Button htmlType="submit" size="small" type="primary">SAVE</Button>
+            <Button
+              htmlType="submit"
+              size="small"
+              type="primary"
+              disabled={description === initialDescription}
+              loading={saving}
+            >
+              {description === initialDescription && saved ? 'SAVED' : 'SAVE'}
+            </Button>
           </form>
           </div>
         </div>

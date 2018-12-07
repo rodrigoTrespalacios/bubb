@@ -76,7 +76,7 @@ export default class extends React.Component {
       <div className="main-container">
 
         <div className="section">
-        <div className="list-item">
+        <div className="list-item content">
           <div style={{width: '100%'}}>
           <h2>Your Profiles</h2>
           <p style={{margin:0, marginTop: 2}}>Something somehting something</p>
@@ -85,7 +85,7 @@ export default class extends React.Component {
         {this.state.linkList.map(forwardLink => 
           <ForwardLink link={forwardLink} onLinkDelete={this.handleLinkDelete}/>
         )}
-          <div className="list-item input">
+          <div className="list-item input content">
           <form id="signout" method="post" onSubmit={this.handleLinkSubmit}>
             <input name="_csrf" type="hidden" value={this.props.session.csrfToken}/>
             <Input
@@ -96,7 +96,7 @@ export default class extends React.Component {
               value={this.state.newLink}
               onChange={this.handleLinkChange}
             />
-            <Button htmlType="submit" type="primary">Add</Button>
+            <Button htmlType="submit" type="primary" disabled={!this.state.newLink}>Add</Button>
           </form>
           </div>
         </div>

@@ -11,11 +11,15 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: props.link.profileName
+      name: props.link.profileName,
+      initialName: props.link.profileName,
+      saving: false,
+      saved: false
     }
   }
 
   handleEdit = (data) => {
+    this.setState({saving: true})
     fetch('http://localhost:3000/api/link/edit', {
         method: 'post',
         headers: {
@@ -27,15 +31,10 @@ export default class extends React.Component {
     })
     .then((res) => {
       if (res.status === 200) {
-        let linkList = this.state.linkList
-        if(data.removeLink) {
-          linkList = linkList
-        } else {
-          linkList = [...linkList, this.state.newLink]
-        }
         this.setState({
-          linkList: linkList,
-          newLink: null
+          saving: false,
+          initialName: this.state.name,
+          saved: true
         })
       }
     })
@@ -55,11 +54,17 @@ export default class extends React.Component {
 
   handleNameChange = ({target}) => {
     this.setState({
-      name: target.value,
+      name: target.value.slice(0, 47),
     })
   }
   
   render() {
+    const {
+      name,
+      initialName,
+      saving,
+      saved
+    } = this.state
     return (
       <div className="main-container">
 
@@ -77,10 +82,19 @@ export default class extends React.Component {
             </div>
           </div>
         </div>
-          <div className="list-item">
-          <form id="signout" method="post" onSubmit={this.handleNameSubmit}>
+          <div className="list-item content">
+          <div style={{width: '100%'}} className="gray">Please use 48 characters at maximum.</div>
+          <form style={{width: 'auto'}}id="signout" method="post" onSubmit={this.handleNameSubmit}>
             <input name="_csrf" type="hidden" value={this.props.session.csrfToken}/>
-            <Button htmlType="submit" size="small" type="primary">SAVE</Button>
+            <Button
+              htmlType="submit"
+              size="small"
+              type="primary"
+              disabled={name === initialName}
+              loading={saving}
+            >
+              {name === initialName && saved ? 'SAVED' : 'SAVE'}
+            </Button>
           </form>
           </div>
         </div>
