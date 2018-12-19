@@ -6,6 +6,7 @@ import Router from 'next/router'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
 import { withRouter } from 'next/router'
+import Logo from './Logo'
 
 function handleSignOutSubmit(event) {
   event.preventDefault()
@@ -21,7 +22,7 @@ function handleSignOutSubmit(event) {
 const Navbar = ({session, router}) => {
   return (
   <div className="navbar">
-    <div className="navbar-link"><Link href="/"><a>bubb.as</a></Link></div>
+    <div className="navbar-link"><Link href="/"><Logo /></Link></div>
     <div>
       {!session.user &&
         <div className="navbar-link"><Link href="/auth" prefetch><a style={{fontWeight:  '600'}}>login / signup</a></Link></div>
