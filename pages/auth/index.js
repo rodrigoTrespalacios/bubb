@@ -65,33 +65,72 @@ export default class extends React.Component {
   
   render() {
     return (
-      <RaisedCard>
-        <h1 className="card-header">Log In to BUBB</h1>
-        <div className="card-body pb-0">
-          <SignInButtons providers={this.props.providers}/>
-          <div>
-            <form id="signin" method="post" action="/auth/email/signin" onSubmit={this.handleSignInSubmit}>
-              <input name="_csrf" type="hidden" value={this.state.session.csrfToken}/>
-              <Input
-                name="email"
-                id="email"
-                onChange={this.handleEmailChange}
-                // onPressEnter={this.sendEmail}
-                type="email"
-                required
-                placeholder="you@domain.com"
-                prefix={<Icon
-                    type="mail"
-                    theme="outlined"
-                  />}
-              />
-              <p className="text-right">
-                <Button htmlType="submit" id="submitButton">LOGIN</Button>
-              </p>
-            </form>
+      <React.Fragment>
+      <Navbar session={{}} />
+      <div className="main-container">
+        <style jsx>{`
+          .main-container {
+            min-height: calc(100vh - 85px);
+          }
+          .signup-card {
+            max-width: 650px;
+            margin: auto;
+            text-align: center;
+          }
+          .card-header {
+            font-weight: 400;
+            margin-bottom: 30px;
+          }
+          .card-body {
+            max-width: 275px;
+            margin: auto;
+          }
+          .login-instructions {
+            color: rgb(153, 153, 153);
+            font-size: 12px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+          }
+          .login-instructions div {
+            margin-bottom: 5px;
+          }
+          .login-instructions b {
+            color: hsla(349, 87%, 58%, 1);
+          }
+        `}</style>
+        <div className="signup-card">
+          <h1 className="card-header">Log In / Sign Up</h1>
+          <div className="card-body">
+            <SignInButtons providers={this.props.providers}/>
+            <div>
+              <form id="signin" method="post" action="/auth/email/signin" onSubmit={this.handleSignInSubmit}>
+                <input name="_csrf" type="hidden" value={this.state.session.csrfToken}/>
+                <Input
+                  name="email"
+                  id="email"
+                  onChange={this.handleEmailChange}
+                  // onPressEnter={this.sendEmail}
+                  type="email"
+                  required
+                  placeholder="you@domain.com"
+                  prefix={<Icon
+                      type="mail"
+                      theme="outlined"
+                    />}
+                />
+                <p className="text-right">
+                  <Button htmlType="submit" type="primary" id="submitButton" style={{width: '100%', marginTop: 10}}>LOGIN / SIGNUP</Button>
+                </p>
+              </form>
+            </div>
+          </div>
+          <div className="login-instructions">
+            <div>After submitting the form, we’ll send you an email to confirm your login attempt.</div>
+            <div>If it's <b>your first attempt</b>, we will create an account for you at the same time.</div>
           </div>
         </div>
-      </RaisedCard>
+      </div>
+      </React.Fragment>
     )
   }
 }

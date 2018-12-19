@@ -305,7 +305,26 @@ form {
   border-color: hsla(349, 87%, 58%, 1);
 }
 .ant-input:focus {
-    border-color: hsla(349, 87%, 58%, 1);
-    -webkit-box-shadow: 0 0 0 2px hsla(349, 87%, 62%, 0.2);
-    box-shadow: 0 0 0 2px hsla(349, 87%, 62%, 0.2);
+  border-color: hsla(349, 87%, 58%, 1);
+  -webkit-box-shadow: 0 0 0 2px hsla(349, 87%, 62%, 0.2);
+  box-shadow: 0 0 0 2px hsla(349, 87%, 62%, 0.2);
 }
+
+.ant-input-group-addon {
+  background: hsla(349, 87%, 58%, 1);
+  border-color: hsla(349, 87%, 58%, 1);
+  color: white;
+  cursor: default;
+}
+.ant-collapse-header {
+  line-height: 40px !important;
+  font-weight: 600 !important;
+  font-size: 20px;
+}
+.ant-collapse-item:hover {
+  background-color: white !important;
+}
+.ant-collapse-item-active {
+  background: white !important;
+}   
+

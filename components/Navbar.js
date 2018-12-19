@@ -5,6 +5,7 @@ import { NextAuth } from 'next-auth/client'
 import Router from 'next/router'
 import Button from 'antd/lib/button'
 import Icon from 'antd/lib/icon'
+import { withRouter } from 'next/router'
 
 function handleSignOutSubmit(event) {
   event.preventDefault()
@@ -17,12 +18,13 @@ function handleSignOutSubmit(event) {
   })
 }
 
-const Navbar = ({session}) => (
+const Navbar = ({session, router}) => {
+  return (
   <div className="navbar">
     <div className="navbar-link"><Link href="/"><a>bubb.as</a></Link></div>
     <div>
       {!session.user &&
-        <div className="navbar-link"><Link href="/auth" prefetch><a>login</a></Link></div>
+        <div className="navbar-link"><Link href="/auth" prefetch><a style={{fontWeight:  '600'}}>login / signup</a></Link></div>
       }
       {session.user &&
         <React.Fragment>
@@ -44,6 +46,6 @@ const Navbar = ({session}) => (
       }
     </div>
   </div>
-);
+)};
 
-export default Navbar
+export default withRouter(Navbar)

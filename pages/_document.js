@@ -1,5 +1,7 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import Page from '../components/Page'
+import Footer from '../components/Footer'
+
 export default class DefaultDocument extends Document {
   static async getInitialProps(props) {
     return await Document.getInitialProps(props)
@@ -16,6 +18,7 @@ export default class DefaultDocument extends Document {
           <Main />
           <NextScript />
         </body>
+        <Footer />
       </html>
     )
   }

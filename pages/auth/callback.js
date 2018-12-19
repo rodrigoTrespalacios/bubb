@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { NextAuth } from 'next-auth/client'
+import "../../styles/main.css"
 
 export default class extends React.Component {
 
@@ -17,11 +18,7 @@ export default class extends React.Component {
     // The ensures client state is always updated after signing in or out.
     const session = await NextAuth.init({force: true})
 
-    if(!session.user) {
-      window.location.replace('/')
-    } else {
-      window.location.replace('/dashboard')
-    }
+    window.location.replace('/')
   }
 
   render() {
@@ -32,14 +29,13 @@ export default class extends React.Component {
           body{ 
             background-color: #fff;
           }
+          .loader-container {
+            min-height: calc(100vh - 220px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
           .circle-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50%;
-            z-index: 100;
-            text-align: center;
-            transform: translate(-50%, -50%);
           }
           .circle-loader .circle {
             fill: transparent;
@@ -76,6 +72,7 @@ export default class extends React.Component {
             }
           `}</style>
         </noscript>
+        <div className="loader-container">
         <a href="/" className="circle-loader">
           <svg className="circle" width="60" height="60" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <circle cx="30" cy="30" r="15"/>
@@ -83,7 +80,8 @@ export default class extends React.Component {
         <noscript>
           Click here to continue
         </noscript>
-        </a>          
+        </a>   
+        </div>       
       </React.Fragment>
     )
   }

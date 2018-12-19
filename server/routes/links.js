@@ -41,7 +41,7 @@ module.exports = (expressApp, db, functions) => {
   })
 
   expressApp.post('/api/reserve', async(req, res) => {
-    if (req.user) {
+    if (req.user && req.body.slug) {
 
       const link = new LinkType({
         slug: req.body.slug,
@@ -49,7 +49,7 @@ module.exports = (expressApp, db, functions) => {
         paid: false,
       })
       await db.collection('link').findOneAndUpdate({
-        slug: req.body.slug,
+        slug: req.body.slug.replace(/\s/g, '.').replace(/[.]+/gi, '.').replace(/[^0-9a-z.]/gi, '').slice(0, 4),
         owner: req.user.id}, {$set: link}, {upsert: true})
 
       return res.status(200).json({ link: link })
