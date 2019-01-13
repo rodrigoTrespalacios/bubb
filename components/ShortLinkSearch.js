@@ -83,7 +83,12 @@ export default class extends React.Component {
             defaultValue={this.state.search}
           />
         </form>
-        <ShortLinkSelect searchResults={this.state.searchResults} search={this.state.search} session={this.props.session}/>
+        <ShortLinkSelect
+          searchResults={this.state.searchResults}
+          search={this.state.search}
+          session={this.props.session}
+          onSelect={this.props.onSelect}
+        />
       </div>
     )
   }

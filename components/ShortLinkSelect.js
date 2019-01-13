@@ -5,31 +5,51 @@ import fetch from 'isomorphic-unfetch'
 import { Spring, animated } from 'react-spring'
 
 export default class extends React.Component {
-
-  submitForm = () => {
-    const data = {
-      slug: this.props.search,
-
-    }
-    fetch('/api/reserve', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'x-csrf-token': this.props.session.csrfToken,
-      },
-      body: JSON.stringify(data)
-    }).then((res) => {
-      if(res.status === 200) {
-        this.setState({ submitted: true })
-        Router.push({ pathname: '/dashboard'})
+  state = {
+    submitting: false
+  }
+  submitForm = (storedLink=null) => {
+    const {
+      session,
+      search,
+      onSelect
+    } = this.props
+    if(onSelect) onSelect()
+    if(session.user) {
+      const data = {
+        slug: storedLink || search,
       }
-    })
+      fetch('/api/reserve', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+          'x-csrf-token': session.csrfToken,
+        },
+        body: JSON.stringify(data)
+      }).then((res) => {
+        if(res.status === 200) {
+          this.setState({ submitted: true })
+          Router.push('/')
+        }
+      })
+    } else {
+      localStorage.setItem("bubb-link", search)
+      Router.push(`/auth`)
+    }
   }
 
+  componentDidMount = () => {
+    const storedLink = localStorage.getItem("bubb-link")
+    localStorage.removeItem("bubb-link")
+    if(storedLink) {
+      this.submitForm(storedLink)
+    }
+  }
   render() {
     const show = this.props.searchResults && this.props.search
     if(!show) return null
+    // if(this.state.submitting) 
     return (
       <Spring
         native
@@ -53,7 +73,7 @@ export default class extends React.Component {
               }
             `}</style>
             {this.props.searchResults && <div>bubb.as/<b>{this.props.search}</b> is {this.props.searchResults.length > 0 ? ' not ' : ' '} available!</div>}
-            <Button type="primary" onClick={this.submitForm}>
+            <Button type="primary" onClick={() => this.submitForm()}>
              Get it!
             </Button>
           </div>

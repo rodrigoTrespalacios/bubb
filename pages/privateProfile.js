@@ -48,9 +48,16 @@ export default class extends React.Component {
       link,
       session
     } = this.props
+    const links = link.links
     return (
-      <React.Fragment>
-        <Navbar session={this.props.session}/>
+      <div className="main-container">
+        <style jsx>{`
+          .empty-links {
+            text-align: center;
+            color: rgba(0,0,0,0.4);
+          }
+        `}</style>
+        <Navbar session={this.props.session} editLink/>
         <div className="main-container">
           <div className="static-notification" style={{textAlign: 'center'}}>
             <Icon type="eye" theme="filled" style={{color:"white", width: 50}}/>
@@ -59,20 +66,18 @@ export default class extends React.Component {
             </div>
             <div style={{width: 50}}></div>
           </div>
-          <div style={{textAlign: 'center'}}>
-            <Link href={'/'} prefetch><Button size="medium" type="primary">Edit</Button></Link>
-          </div>
           <div style={{textAlign: 'center', margin: '50px 0'}}>
             <h2>{link.profileName}</h2>
             <p className="gray" style={{maxWidth: 500, margin: 'auto'}}>{link.profileDescription}</p>
           </div>
-          <div className="section">
-          {link.links.map(forwardLink => 
+          {links && <div className="section">
+          {links.map(forwardLink => 
             <ForwardLink link={forwardLink} />
           )}
-          </div>
+          </div>}
+          {!links && <div className="empty-links">There are no links on this profile yet.</div>}
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }

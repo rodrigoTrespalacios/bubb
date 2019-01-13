@@ -9,16 +9,18 @@ body {
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
-  color: rgba(0,0,0,0.87);
+  color: #131827; 
   background: #fafafa;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0
+  margin: 0;
+  color: #131827; 
 }
 
 p {
   font-size: 14px;
+  color: #131827;
 }
 a {
   text-decoration: none !important;
@@ -48,6 +50,7 @@ h2.page-title{
 .main-container {
   max-width: 900px;
   margin: auto;
+  padding: 0 10px;
 }
 .input-error {
   color: red;
@@ -95,6 +98,7 @@ form {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px;
 }
 
 .navbar .navbar-link {

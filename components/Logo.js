@@ -25,6 +25,7 @@ const Logo = ({size, onClick}) => (
         top: 0;
         position: absolute;
         z-index: 2;
+        color: #131827;
       }
     `}</style>
     <div className="letters">

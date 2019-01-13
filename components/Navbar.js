@@ -19,7 +19,7 @@ function handleSignOutSubmit(event) {
   })
 }
 
-const Navbar = ({session, router}) => {
+const Navbar = ({session, router, link, editLink}) => {
   return (
   <div className="navbar">
     <div className="navbar-link"><Link href="/"><Logo /></Link></div>
@@ -29,16 +29,29 @@ const Navbar = ({session, router}) => {
       }
       {session.user &&
         <React.Fragment>
+        {link && link.slug &&
+          <span style={{marginRight: 10}}>
+          <Link href={`/${link.slug}/u/${session.user.id}`} prefetch>
+            <Button size="medium" type="primary">preview</Button>
+          </Link>
+          </span>
+        }
+        {editLink &&
+          <span style={{marginRight: 10}}>
+            <Link href={'/'} prefetch><Button size="medium" type="primary">Edit</Button></Link>
+          </span>
+        }
         <Popover
           placement="bottomRight"
-          content={<div>
-            <div className="dropdown-link"><Link href="/" prefetch>Edit Bubb Link</Link></div>
-            <div style={{borderTop: '1px solid rgb(234, 234, 234)', margin: '8px 0px'}} />
-            <form id="signout" method="post" action="/auth/signout">
-              <input name="_csrf" type="hidden" value={session.csrfToken}/>
-              <div className="dropdown-link"><button className="link-button">Sign Out</button></div>
-            </form>
-          </div>}
+          content={
+            <div>
+              {false && <div style={{borderTop: '1px solid rgb(234, 234, 234)', margin: '8px 0px'}} />}
+              <form id="signout" method="post" action="/auth/signout">
+                <input name="_csrf" type="hidden" value={session.csrfToken}/>
+                <div className="dropdown-link"><button className="link-button">Sign Out</button></div>
+              </form>
+            </div>
+          }
           trigger="click"
         >
           <Button shape="circle"><Icon type="ellipsis" /></Button>

@@ -22,7 +22,6 @@ export default class extends React.Component {
           <div style={{textAlign: 'center', marginBottom: 40}}>
             <h2>bubb.as/{link.slug}</h2>
             <p className="gray">Edit your short link</p>
-            <Link href={`/${link.slug}/u/${session.user.id}`} prefetch><Button size="medium" type="primary">preview</Button></Link>
           </div>
           <NameInput {...this.props} />
           <DescriptionInput {...this.props} />

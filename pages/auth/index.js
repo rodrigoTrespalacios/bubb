@@ -127,6 +127,7 @@ export default class extends React.Component {
           <div className="login-instructions">
             <div>After submitting the form, we’ll send you an email to confirm your login attempt.</div>
             <div>If it's <b>your first attempt</b>, we will create an account for you at the same time.</div>
+            <div>No password is required.</div>
           </div>
         </div>
       </div>

@@ -7,6 +7,8 @@ import Page from '../components/Page'
 import { NextAuth } from 'next-auth/client'
 import PrivateProfileEdit from '../layouts/privateProfileEdit'
 import Home from '../layouts/home'
+import Wizard from '../layouts/wizard'
+
 
 export default class extends React.Component {
   static async getInitialProps({req}) {
@@ -37,9 +39,10 @@ export default class extends React.Component {
 
     return (
       <div className="main-container">
-        <Navbar session={session}/>
+        <Navbar session={session} link={link}/>
         {!session.user && <Home {...this.props} />}
         {(session.user && link.slug) && <PrivateProfileEdit {...this.props} />}
+        {(session.user && !link.slug) && <Wizard {...this.props} />}
       </div>
     )
   }

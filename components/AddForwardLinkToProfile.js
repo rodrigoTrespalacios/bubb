@@ -72,6 +72,7 @@ export default class extends React.Component {
   }
   
   render() {
+    const linkList = this.state.linkList || []
     return (
       <div className="main-container">
 
@@ -82,7 +83,7 @@ export default class extends React.Component {
           <p style={{margin:0, marginTop: 2}}>Something somehting something</p>
           </div>
         </div>
-        {this.state.linkList.map(forwardLink => 
+        {linkList.map(forwardLink => 
           <ForwardLink link={forwardLink} onLinkDelete={this.handleLinkDelete}/>
         )}
           <div className="list-item input content">
